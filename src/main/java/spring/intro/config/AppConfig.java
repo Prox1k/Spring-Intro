@@ -14,7 +14,9 @@ import spring.intro.model.User;
 
 @Configuration
 @PropertySource("classpath:db.properties")
-@ComponentScan(basePackages = {"spring.intro.dao", "spring.intro.service"})
+@ComponentScan(basePackages = {"spring.intro.dao",
+        "spring.intro.service",
+        "spring.intro.controllers"})
 public class AppConfig {
     @Autowired
     private Environment environment;

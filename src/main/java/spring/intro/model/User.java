@@ -1,5 +1,6 @@
 package spring.intro.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,7 +11,10 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String login;
+    private String name;
+
+    @Column(unique = true)
+    private String email;
     private String password;
 
     public Long getId() {
@@ -21,12 +25,20 @@ public class User {
         this.id = id;
     }
 
-    public String getLogin() {
-        return login;
+    public String getName() {
+        return name;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -40,7 +52,8 @@ public class User {
     @Override
     public String toString() {
         return "User{" + "id=" + id
-                + ", login='" + login + '\''
+                + ", name='" + name + '\''
+                + ", email='" + email + '\''
                 + ", password='" + password + '\'' + '}';
     }
 }
