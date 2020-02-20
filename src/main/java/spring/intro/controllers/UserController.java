@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class UserController {
     private UserService userService;
 
@@ -51,24 +51,27 @@ public class UserController {
     public UserResponseDto get(@PathVariable Long id) {
         UserResponseDto userResponseDto = new UserResponseDto();
         User user = userService.get(id);
+        return getDtoFromEntity(id, userResponseDto, user);
+    }
+
+    @GetMapping
+    public List<UserResponseDto> getAll() {
+        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+        userService.listUsers().forEach(u -> {
+            UserResponseDto response = new UserResponseDto();
+            response.setEmail(u.getEmail());
+            response.setPassword(u.getPassword());
+            userResponseDtoList.add(response);
+        });
+        return userResponseDtoList;
+    }
+
+    private UserResponseDto getDtoFromEntity(Long id, UserResponseDto userResponseDto, User user) {
         userResponseDto.setId(id);
         userResponseDto.setEmail(user.getEmail());
         userResponseDto.setPassword(user.getPassword());
         return userResponseDto;
     }
-
-    @GetMapping("/")
-    public List<UserResponseDto> getAll() {
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        List<User> users = userService.listUsers();
-        for (User user : users) {
-            UserResponseDto userResponseDto = new UserResponseDto();
-            userResponseDto.setId(user.getId());
-            userResponseDto.setEmail(user.getEmail());
-            userResponseDto.setPassword(user.getPassword());
-            userResponseDtoList.add(userResponseDto);
-        }
-        return userResponseDtoList;
-    }
 }
+
 
